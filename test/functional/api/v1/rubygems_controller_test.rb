@@ -192,6 +192,16 @@ class Api::V1::RubygemsControllerTest < ActionController::TestCase
       end
     end
 
+    context "ON PUT to update for existing gem" do
+      setup do
+        @rubygem  = Factory(:rubygem, :name => "test")
+        v1       = Factory(:version, :rubygem => @rubygem, :number => "0.1.0", :platform => "ruby")
+        Factory(:ownership, :user => @user, :rubygem => @rubygem, :approved => true)
+        put :update
+      end
+      should respond_with :success
+    end
+
     context "for a gem SomeGem with a version 0.1.0" do
       setup do
         @rubygem  = Factory(:rubygem, :name => "SomeGem")

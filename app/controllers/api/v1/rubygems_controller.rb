@@ -1,10 +1,10 @@
 class Api::V1::RubygemsController < Api::BaseController
   skip_before_filter :verify_authenticity_token, :only => [:create, :yank, :unyank]
 
-  before_filter :authenticate_with_api_key, :only => [:index, :create, :yank, :unyank]
-  before_filter :verify_authenticated_user, :only => [:index, :create, :yank, :unyank]
+  before_filter :authenticate_with_api_key, :only => [:index, :create, :yank, :unyank, :update]
+  before_filter :verify_authenticated_user, :only => [:index, :create, :yank, :unyank, :update]
   before_filter :find_gem,                  :only => [:show]
-  before_filter :find_gem_by_name,          :only => [:yank, :unyank]
+  before_filter :find_gem_by_name,          :only => [:yank, :unyank, :update]
   before_filter :validate_gem_and_version,  :only => [:yank, :unyank]
 
   def index
@@ -30,6 +30,10 @@ class Api::V1::RubygemsController < Api::BaseController
     gemcutter = Pusher.new(current_user, request.body, request.host_with_port)
     gemcutter.process
     render :text => gemcutter.message, :status => gemcutter.code
+  end
+
+  def update
+    render :text => 'wonderful'
   end
 
   def yank

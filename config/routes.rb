@@ -18,13 +18,13 @@ Gemcutter::Application.routes.draw do
 
       resources :dependencies, :only => :index
 
-      resources :rubygems, :path => "gems", :only => [:create, :show, :index] do
+      resources :rubygems, :path => "gems", :only => [:create, :show, :index, :update] do
         collection do
           delete :yank
           put :unyank
         end
         constraints :rubygem_id => RUBYGEM_NAME_MATCHER do
-          resource :owners, :only => [:show, :create, :destroy]
+          resource :owners, :only => [:show, :create, :destroy, :update]
         end
       end
 
